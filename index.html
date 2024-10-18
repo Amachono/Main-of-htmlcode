@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Logger</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        ul { list-style-type: none; padding: 0; }
+    </style>
+</head>
+<body>
+    <h1>Messages</h1>
+    <ul id="messages"></ul>
+
+    <script>
+        // Функция для добавления сообщения на страницу
+        function addMessage(userId, userName) {
+            const messageList = document.getElementById('messages');
+            const messageItem = document.createElement('li');
+            messageItem.textContent = `${userId}: ${userName} has launched the script`;
+            messageList.appendChild(messageItem);
+        }
+
+        // Пример функции для обработки POST-запросов
+        async function sendMessage(userId, userName) {
+            const url = 'https://htmlcode-seven.vercel.app/'; // Замените на ваш URL Vercel
+            
+            const data = {
+                [userId]: `${userName} has launched the script`
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    console.log('Message sent successfully');
+                    addMessage(userId, userName); // Добавляем сообщение на страницу
+                } else {
+                    console.error('Error sending message:', response.statusText);
+                }
+            } catch (error) {
+                console.error('Network error:', error);
+            }
+        }
+
+        // Пример вызова функции (можно заменить на данные из Roblox)
+        const userId = '123456'; // Замените на реальный UserId
+        const userName = 'Player1'; // Замените на реальный юзернейм
+        sendMessage(userId, userName);
+    </script>
+</body>
+</html>
